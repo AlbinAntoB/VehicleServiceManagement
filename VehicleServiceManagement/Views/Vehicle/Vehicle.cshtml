@@ -1,0 +1,217 @@
+﻿@model CustomerCommanModel
+@using Microsoft.AspNetCore.Http
+<label>@Context.Session.GetString("CustomerName")</label>
+<!--Grid Form-->
+<div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2" style="background-color:white">
+    <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+        <div class="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
+            Vehicle Details
+        </div>
+        <div class="p-3">
+            <form class="w-full" method="post" asp-controller="" asp-action="">
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-first-name">
+                            Vehicle No:
+                        </label>
+                        <input class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600"
+                               id="grid-first-name" type="text" placeholder="Vehicle No">
+                        <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-last-name">
+                            Vehicle Brand:
+                        </label>
+                        <input class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600"
+                               id="grid-last-name" type="text" placeholder="Vehicle Brand">
+                        <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-last-name">
+                            Vehicle Model:
+                        </label>
+                        <input class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600"
+                               id="grid-last-name" type="text" placeholder="Vehicle Model">
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-last-name">
+                            Vehicle Color:
+                        </label>
+                        <input class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600"
+                               id="grid-last-name" type="text" placeholder="Vehicle Color">
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-last-name">
+                            Vehicle Kms Ran:
+                        </label>
+                        <input class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600"
+                               id="grid-last-name" type="text" placeholder=" Vehicle Kms Ran">
+                    </div>
+                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-state">
+                            Vehicle Type:
+                        </label>
+                        <div class="relative">
+                            <select class="block appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                    id="dropdown" onchange="ComplaintsDropdown()"></select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-grey-darker">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-last-name">
+                            Estimate Price:
+                        </label>
+                        <input class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600"
+                               id="grid-last-name" type="text" placeholder="Estimate Price ">
+                        <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+                    </div>
+                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-last-name">
+                            <br />
+                        </label>
+                        <button class="bg-orange-500 hover:bg-orange-800 text-white font-bold py-2 px-4 rounded">
+                            Add Complaint
+                        </button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="value">
+                        <div class="input-group">
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select id="complaintdropdown" placeholder="Select an Complaints" multiple>Complaints</select>
+                                <div class="select-dropdown"></div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                           for="grid-last-name">
+                    </label>
+                    <button class="bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-4 rounded" type="submit" />Save
+                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-last-name">
+                        </label>
+                        <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/Grid Form-->
+<!-- TO use Jquery-->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<script>
+     $(document).ready(function () {
+        VehicleDropdown(0);
+    });
+
+    function VehicleDropdown(IsSeleted) {
+             $.ajax({
+                url: '@Url.Action("GetVehicleType","Vehicle")',
+                type: 'POST',
+                datatype:'json',
+                 cache: false,
+                 async:false,
+                 success: function (customerCommanModel) {
+                     debugger;
+                     console.log(customerCommanModel.vehicleTypesList)
+                     if(customerCommanModel.vehicleTypesList!= null) {
+                         BindDropdown(customerCommanModel.vehicleTypesList, "#dropdown", "vehicleTypeId", "vehicleType");
+
+                    }
+
+                }
+        });
+        if (IsSeleted>0) {
+            $('#dropdown').val(IsSeleted);
+        }
+        }
+    function ComplaintsDropdown() {
+        var VehicleTypeId = $('#dropdown').val();
+        $('#complaintdropdown').empty();
+        //var multipleCancelButton = new Choices('#complaintdropdown', {
+        //    removeItemButton: true,
+        //});
+
+             $.ajax({
+
+                url: '@Url.Action("GetComplaints", "Vehicle")',
+                 type: 'POST',
+                 data: { VehicleTypeId, VehicleTypeId},
+                datatype:'json',
+                 cache: false,
+                 async: false,
+                 success: function (customerCommanModel) {
+                     var lstCustomers = $("[id*=complaintdropdown]");
+                     lstCustomers.empty();
+
+                     if (customerCommanModel.customerComplaintsList!= null) {
+                         BindDropdown(customerCommanModel.customerComplaintsList, "#complaintdropdown", "complaintsId", "complaints", "price");
+                    }
+
+                }
+        });
+        VehicleDropdown(VehicleTypeId);
+        }
+             // Dont  change this:
+            function BindDropdown(result, ControlId, ValueField, TextField) {
+            var optionhtml = null;
+            $(ControlId).find('option').remove();
+            if (result.length > 0) {
+                for (var i = 0; i < result.length; i++) {
+                    optionhtml = '<option value="' +
+                        result[i][ValueField] + '">' + result[i][TextField] + '</option>';
+                    $(ControlId).append(optionhtml);
+                }
+            }
+            else {
+                var myOptions = {
+                    val1: '(Not Available)',
+                };
+                var mySelect = $(ControlId);
+                $.each(myOptions, function (val, text) {
+                    mySelect.append(
+                        $('<option></option>').val(val).html(text)
+                    );
+                });
+            }
+    }
+
+</script>
+@*<div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1"
+             for="grid-state">
+          Complaints
+      </label>
+      <div class="relative">
+          <select class="block appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                  id="complaintdropdown"></select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-grey-darker">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+          </div>
+      </div>
+    </div>*@

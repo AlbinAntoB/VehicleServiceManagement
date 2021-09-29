@@ -1,0 +1,160 @@
+﻿@model CustomerCommanModel
+@using Microsoft.AspNetCore.Http;
+@{<div class="container" id="ExportHtml" />
+
+    ViewData["Title"] = "Book Details";
+}
+<!--Grid Form-->
+<div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2 mb-5">
+    <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+        <div class="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
+            Report
+        </div>
+        <div class="container " id="ExportHtml">
+            <table class="table table-striped table-responsive mytable">
+                <thead>
+                    <tr>
+                        <th class="border w-1/6 px-4 py-2">CustomerName</th>
+                        <th class="border w-1/6 px-4 py-2">Email</th>
+                        <th class="border w-1/6 px-4 py-2">MobileNo</th>
+                        <th class="border w-1/6 px-4 py-2">Address</th>
+                        <th class="border w-1/6 px-4 py-2">VehicleNo</th>
+                        <th class="border w-1/6 px-4 py-2">VehicleBrand</th>
+                        <th class="border w-1/6 px-4 py-2">VehicleModel</th>
+                        <th class="border w-1/6 px-4 py-2">VehicleColor</th>
+                        <th class="border w-1/6 px-4 py-2">VehicleKmsRan</th>
+                        <th class="border w-1/6 px-4 py-2">ExpectedDelivery</th>
+                        <th class="border w-1/6 px-4 py-2">TotalPrice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div class="row noprint">
+                        <div class="col-md-12 float-right noprint">
+                            <ul class="tblexport_option">
+                                <li><a onclick="PrintDiv()" title="Print"><i class="fa fa-print"></i> Print</a></li>
+                                <li><a asp-action="Export" asp-controller="Vehicle" onclick="ExportData(2,'Vehicle');" title="Export To Excel"><i class="fa fa-file-excel"></i>Excel</a></li>
+                                <li><a asp-action="Export" asp-controller="Vehicle" onclick="ExportData(1,'Vehicle');" title="Export To Word"><i class="fa fa-file-word"></i>Word</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    @foreach (report report in Model.reportList)
+                    {
+                        <tr>
+                            <td>@report.CustomerName</td>
+                            <td>@report.Email</td>
+                            <td>@report.MobileNo</td>
+                            <td>@report.Address</td>
+                            <td>@report.VehicleNo</td>
+                            <td>@report.VehicleBrand</td>
+                            <td>@report.VehicleModel</td>
+                            <td>@report.VehicleColor</td>
+                            <td>@report.VehicleKmsRan</td>
+                            <td>@Convert.ToDateTime(report.ExpectedDelivery).ToShortDateString()</td>
+                            <td>@Convert.ToInt32(report.TotalPrice)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="export-content">
+</div>
+
+<!--/Grid Form-->
+<script>
+    $(document).ready(function () {
+        ExportData(export_type, file_name, paging = 0);
+    });
+    function printScrollingDiv(divName, paging) {
+        if (!paging) {
+            paging = 0;
+        }
+        if (paging != 0) {
+            var table = $('.table').DataTable();
+            var pagelength = table.page.len();
+            table.page.len(-1).draw();
+        }
+        $("#export-content").html($("#ExportHtml").html());
+        $("#export-content").find(".dataTables_filter").remove();
+        $("#export-content").find(".dataTables_info").remove();
+        $("#export-content").find(".dataTables_length").remove();
+        $("#export-content").find(".dataTables_paginate").remove();
+        $("#export-content").find(".noprint").remove();
+        var header = "<html> <head><style> table { font-size:8pt !important; width: auto  !important; overflow: hidden !important;} " +
+            " body{  font-family: Verdana, Arial, Helvetica, sans-serif; color: #000000; font-style: normal; }" +
+            " p{ font-size: 8pt; } label{ font-size: 8pt; }" +
+            " .pagecaption 	{ font-weight: bold; font-size: 16pt; }" +
+            " h4	{ margin-bottom:2px  !important;font-size: 12pt;} h5,h6{ margin:5px 0 5px  !important;  font-size: 10pt; font-weight:bold !important;} h6	{ font-weight: normal; font-size: 10pt   !important; }" +
+            " table			{ border-top: gray 1px solid; border-left: gray 1px solid; font-size:8pt;border-collapse: collapse;width:auto !important;min-width:50% !importnat}" +
+            "  table td		{ border-right: gray 1px solid; border-bottom: gray 1px solid; padding: 3px;border-collapse: collapse;}" +
+            " table th		{ border-right: gray 1px solid; border-bottom: gray 1px solid; padding: 3px; font: bold; background-color: #CCCCCC; text-align: left;border-collapse: collapse;margin:0 !important; }" +
+            "a{text-decoration: none;pointer-events:none;color:#000;}.dataTables_empty{text-align:center}" +
+            "h5 {font-weight: 700 !important;font-size: 9pt!important;}" +
+            "h6 {font-weight: normal!important;font-size: 9pt!important;}" +
+            "</style>  <title>Option C</title></head><body>";
+        var footer = "</body></html>";
+        var export_data = header + $("#export-content").html() + footer;
+        $("#export-content").html('');
+        var w = window.open();
+        var html = export_data;
+        $(w.document.body).html(html);
+        if (paging != 0) {
+            table.page.len(pagelength).draw();
+        }
+    }
+    function ExportData(export_type, file_name, paging = 0) {
+        if (paging != 0) {
+            var table = $('.table').DataTable();
+            var pagelength = table.page.len();
+            table.page.len(-1).draw();
+        }
+        $("#export-content").html($("#ExportHtml").html());
+        $("#export-content").find(".noprint").remove();
+        $("#export-content").find(".dataTables_filter").remove();
+        $("#export-content").find(".dataTables_info").remove();
+        $("#export-content").find(".dataTables_length").remove();
+        $("#export-content").find(".dataTables_paginate").remove();
+        var header = "<html> <head><style> table { font-size:9pt; } " +
+            " body{  font-family: Verdana, Arial, Helvetica, sans-serif; color: #000000; font-style: normal; }" +
+            " p{ font-size: 8pt; } label{ font-size: 8pt; }" +
+            " .pagecaption 	{ font-weight: bold; font-size: 16pt; }" +
+
+            "  h4	{ margin-bottom:2px  !important;font-size: 12pt;} h5,h6{ margin:5px 0 5px  !important;  font-size: 10pt;} h6	{ font-weight: bold; font-size: 10pt   !important; }" +
+            " table			{ border-top: gray 1px solid; border-left: gray 1px solid; font-size:8pt;border-collapse:collapse}" + ".table_positionset{ margin-top:10px !important;}" +
+            "  table td		{ border-right: gray 1px solid; border-bottom: gray 1px solid; padding: 3px;}" +
+            " table th		{ border-right: gray 1px solid; border-bottom: gray 1px solid; padding: 3px; font: bold; background-color: #CCCCCC; text-align: left; }" +
+            ".dataTables_scrollBody table thead {display:none !important}" +
+            "a{text-decoration: none;pointer-events:none;color:#000;}.dataTables_empty{text-align:center}" +
+
+            "h5 {font-weight: normal!important;font-size: 9pt!important;}" +
+            "h6 {font-weight: normal!important;font-size: 9pt!important;}" +
+            "</style>  <title>Option C</title></head><body>";
+        var footer = "</body></html>";
+        var export_data = header + $("#export-content").html() + footer;
+        $("#export-content").html('');
+
+
+        $.ajax({
+            url:'@Url.Action("SetExportOptions","Vehicle")',
+            data: { exportHtml: export_data, exportType: export_type, fileName: file_name },
+            cache: false,
+            async: false,
+            type: "POST",
+            success: function (data) {
+
+            },
+            error: function (reponse) {
+
+            }
+        });
+
+        if (paging != 0) {
+            table.page.len(pagelength).draw();
+        }
+    }
+
+    function PrintDiv() {
+        window.print();
+    }
+</script>

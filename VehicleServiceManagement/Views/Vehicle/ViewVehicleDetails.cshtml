@@ -1,0 +1,72 @@
+﻿@model CustomerCommanModel
+<!-- Main CSS-->
+<link href="css/main.css" rel="stylesheet" media="all">
+<div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2 mb-5">
+    <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+        <div class="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
+            Vehicle Details
+        </div>
+        <input type="button"  class="btn btn--radius-2 btn--red" onclick="@("window.location.href='" + @Url.Action("VehicleDetails", "Vehicle") + "'")" value="Add New Vehicle Details"/>
+        <div class="table-responsive-md">
+            <div>
+                @if (Model.vehicleDetailsList != null)
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="border w-1/6 px-4 py-2">Action</th>
+                                <th class="border w-1/6 px-4 py-2">VehicleNo</th>
+                                <th class="border w-1/6 px-4 py-2">VehicleBrand</th>
+                                <th class="border w-1/6 px-4 py-2">VehicleModel</th>
+                                <th class="border w-1/6 px-4 py-2">VehicleColor</th>
+                                <th class="border w-1/6 px-4 py-2">VehicleKmsRan</th>
+                                <th class="border w-1/6 px-4 py-2">Complaint</th>
+                                <th class="border w-1/6 px-4 py-2">ExpectedDelivery</th>
+                                <th class="border w-1/6 px-4 py-2">TotalPrice</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (VehicleDetails vehicle in Model.vehicleDetailsList)
+                            {
+                                <tr>
+                                    <td class="border px-4 py-2">
+                                        <a class="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-white" asp-route-VehicleId="@vehicle.VehicleId" asp-controller="Vehicle" asp-action="EditVehicle">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a class="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-red-500" asp-route-VehicleId="@vehicle.VehicleId" asp-controller="Vehicle" asp-action="DeleteVehicle">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                    <td>@vehicle.VehicleNo</td>
+                                    <td>@vehicle.VehicleBrand</td>
+                                    <td>@vehicle.VehicleModel</td>
+                                    <td>@vehicle.VehicleColor</td>
+                                    <td>@vehicle.VehicleKmsRan</td>
+                                    <td>
+                                        @for (int j = 0; j < Model.customerComplaintsList.Count; j++)
+                                        {
+                                            String Count = @vehicle.ComplaintId.ToString();
+                                            if (Count.Contains(Model.customerComplaintsList[j].ComplaintId.ToString()))
+                                            {
+                                                @Model.customerComplaintsList[j].Complaints
+
+                                            }
+
+                                        }
+                                    </td>
+                                    <td>@Convert.ToDateTime(vehicle.ExpectedDelivery).ToShortDateString()</td>
+                                    <td>@Convert.ToInt32(vehicle.TotalPrice)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>No record found</p>
+                }
+            </div>
+        </div>
+        </div>
+    </div>
+<!--/Grid Form-->

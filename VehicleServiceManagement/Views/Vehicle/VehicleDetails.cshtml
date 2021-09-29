@@ -1,0 +1,279 @@
+﻿@model CustomerCommanModel
+@using Microsoft.AspNetCore.Http
+<!-- Icons font CSS-->
+<link href="~/Vehicle/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+<link href="~/Vehicle/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+<!-- Font special for pages-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+<!-- Vendor CSS-->
+<link href="~/Vehicle/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+<link href="~/Vehicle/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+<!-- Main CSS-->
+<link href="css/main.css" rel="stylesheet" media="all">
+
+<link href="~/toastr/toastr.css" rel="stylesheet" />
+<!-- TO use Multiselect option-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+<div class="wrapper wrapper--w790">
+    <div class="card card-5">
+        <div class="card-heading">
+            <h2 class="title">Vehicle Details</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST" asp-controller="Vehicle" asp-action="SaveVehicle">
+                <div class="form-row m-b-55">
+                    <div class="name"></div>
+                    <div class="value">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" type="text" placeholder="Vehicle No" asp-for="vehicleDetails.VehicleNo" name="VehicleNo" maxlength="8">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" type="text" placeholder="Vehicle Brand" asp-for="vehicleDetails.VehicleBrand" name="VehicleBrand" maxlength="25">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row m-b-55">
+                    <div class="name"></div>
+                    <div class="value">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" type="number" placeholder="Vehicle Model" asp-for="vehicleDetails.VehicleModel" name="VehicleModel" maxlength="5">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" type="text" placeholder="Vehicle Color" asp-for="vehicleDetails.VehicleColor" name="VehicleColor" maxlength="25">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row m-b-55">
+                    <div class="name"></div>
+                    <div class="value">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" type="number" placeholder="Vehicle Kms Ran" asp-for="vehicleDetails.VehicleKmsRan" name="VehicleKmsRan">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select id="dropdown" onchange="ComplaintsDropdown()" asp-for="vehicleDetails.VehicleTypeId" name="VehicleTypeId"></select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="name">Select Complaints</div>
+                    <div class="value">
+                        <div class="input-group">
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select id="complaintdropdown" placeholder="Select an Complaints" multiple asp-for="vehicleDetails.ComplaintId" name="ComplaintId">Complaints</select>
+                                <div class="select-dropdown"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row m-b-55">
+                    <div class="name">Estimate Price</div>
+                    <div class="value">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" type="text" placeholder="Estimate Price" asp-for="vehicleDetails.TotalPrice" name="TotalPrice" id="Price" />
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5 padding:-87px;"  type="datetime-local" placeholder="Delivery Date" asp-for="vehicleDetails.ExpectedDelivery" name="ExpectedDelivery">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- To align an Button in right cornor-->
+                @*<div class="text-right">
+                    <button class="btn btn--radius-2 btn--red" type="button">Add New Complaint</button>
+                </div>*@
+                <!-- To align an Button in Center-->
+
+                <div class="text-center">
+                    <button class="bg-green-500 hover:bg-green-800 text-white font-bold py-3 px-4 rounded" type="submit" />Save
+                    <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded" type="reset" />Cancel
+                </div>
+                @*<input type="button" onclick="@("window.location.href='" + @Url.Action("GetTotalPrice", "Vehicle") + "'")" value="Get Price" />
+                <br />
+                <input type="button" id="tst" onclick="getvalues()" value="Click me" />*@
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Jquery JS-->
+<script src="~/Vehicle/vendor/jquery/jquery.min.js"></script>
+<!-- Vendor JS-->
+<script src="~/Vehicle/vendor/select2/select2.min.js"></script>
+<script src="~/Vehicle/vendor/datepicker/moment.min.js"></script>
+<script src="~/Vehicle/vendor/datepicker/daterangepicker.js"></script>
+<!-- Main JS-->
+<script src="~/Vehicle/js/global.js"></script>
+
+<!-- TO use Multiselect-->
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+<!-- TO use Jquery-->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        VehicleDropdown(0);
+    });
+
+
+    function getvalues() {
+        var values = $('#complaintdropdown').val();
+        console.log(values);
+    }
+
+    function VehicleDropdown(IsSeleted) {
+             $.ajax({
+                url: '@Url.Action("GetVehicleType","Vehicle")',
+                type: 'POST',
+                datatype:'json',
+                 cache: false,
+                 async:false,
+                 success: function (customerCommanModel) {
+                     debugger;
+                     console.log(customerCommanModel.vehicleTypesList)
+                     if(customerCommanModel.vehicleTypesList!= null) {
+                         BindDropdown(customerCommanModel.vehicleTypesList, "#dropdown", "vehicleTypeId", "vehicleType");
+
+                    }
+
+                }
+             });
+        if (IsSeleted>0) {
+            $('#dropdown').val(IsSeleted);
+        }
+    }
+    function ComplaintsDropdown() {
+        var VehicleTypeId = $('#dropdown').val();
+        //$('#complaintdropdown').empty();
+        //var multipleCancelButton = new Choices('#complaintdropdown', {
+        //    removeItemButton: true,
+        //});
+
+             $.ajax({
+
+                url: '@Url.Action("GetComplaints", "Vehicle")',
+                 type: 'POST',
+                 data: { VehicleTypeId, VehicleTypeId},
+                datatype:'json',
+                 cache: false,
+                 async: false,
+                 success: function (customerCommanModel) {
+                     var lstCustomers = $("[id*=complaintdropdown]");
+                     lstCustomers.empty();
+                     if (customerCommanModel.customerComplaintsList != null) {
+                         console.log(customerCommanModel.customerComplaintsList);
+                         BindDropdown(customerCommanModel.customerComplaintsList, "#complaintdropdown", "complaintId", "complaints", "price");
+                    }
+
+                }
+             });
+            VehicleDropdown(VehicleTypeId);
+    }
+    // Dont  change this:
+    function BindDropdown(result, ControlId, ValueField, TextField,price) {
+        debugger
+        var optionhtml = null;
+        $(ControlId).find('option').remove();
+        if (result.length > 0) {
+            for (var i = 0; i < result.length; i++) {
+                optionhtml = '<option data-price" ' + result[i][price]+'" value="' +
+                    result[i][ValueField] + '">' + result[i][TextField] + '</option>';
+                $(ControlId).append(optionhtml);
+            }
+        }
+        else {
+            var myOptions = {
+                val1: '(Not Available)',
+            };
+            var mySelect = $(ControlId);
+            $.each(myOptions, function (val, text) {
+                mySelect.append(
+                    $('<option></option>').val(val).html(text)
+                );
+            });
+        }
+    }
+</script>
+
+
+@*TO show an Toast msg in view  page:*@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<script src="~/toastr/toastr.js"></script>
+<script>
+     $(document).ready(function () {
+        debugger
+         if ("@TempData["ToastrMessage"]" != null)
+            ShowToastr(@Html.Raw(TempData["ToastrMessage"]));
+
+    });
+
+    function ShowToastr(message, title, type) {
+        debugger
+        toastr.options = {
+            "closeButton": false, // true/false
+            "debug": false, // true/false
+            "newestOnTop": false, // true/false
+            "progressBar": false, // true/false
+            "positionClass": "toast-top-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
+            "preventDuplicates": false, //true//false
+            "onclick": null,
+            "showDuration": "3000000", // in milliseconds
+            "hideDuration": "100", // in milliseconds
+            "timeOut": "3000", // in milliseconds
+            "extendedTimeOut": "1000", // in milliseconds
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        switch (type) {
+            case "success":
+                toastr.success(message, title);
+                break;
+            case "warning":
+                toastr.warning(message, title);
+                break;
+            case "error":
+                toastr.error(message, title);
+                break;
+            case "info":
+                toastr.info(message, title);
+                break;
+            default:
+                break;
+        }
+    }
+</script>
+<script>
+    function myFunction() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
