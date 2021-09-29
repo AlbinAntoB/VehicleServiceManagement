@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="GemBox.Spreadsheet" Version="47.0.1268" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\VehicleServiceManagement.DbEngine\VehicleServiceManagement.DbEngine.csproj" />
+    <ProjectReference Include="..\VehicleServiceManagement.Framework\VehicleServiceManagement.Framework.csproj" />
+  </ItemGroup>
+
+</Project>
