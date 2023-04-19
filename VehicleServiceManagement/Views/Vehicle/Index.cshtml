@@ -1,0 +1,169 @@
+﻿@using VehicleSeviceManagement.Framework;
+@using Microsoft.AspNetCore.Http
+@model CustomerCommanModel
+<!-- Main CSS-->
+@*This is hidden field of gst price percentage*@
+<input type="hidden" id="Above1000" value="@Context.Session.GetString(MessageCatalog.Customer.CustomerProperty.ABOVETHOUSAND)" />
+<input type="hidden" id="Less1000" value="@Context.Session.GetString(MessageCatalog.Customer.CustomerProperty.LESSTHOUSAND)" />
+<link href="~/Vehicle/css/main.css" rel="stylesheet" media="all">
+<div class="card card-5">
+    <div>
+        <h2 class="title"></h2>
+        <h2><marquee style="color:black" direction="right">WELCOME TO OUR COMPANY</marquee></h2>
+    </div>
+    @{
+        var UserPermision = Context.Session.GetInt32(MessageCatalog.Customer.CustomerProperty.USERROLL);
+    }
+    @if (UserPermision == 1)
+    {
+        if (Model.adminReport != null)
+        {
+
+            <!-- Stats Row Starts Here -->
+            <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+                <div class="shadow-lg bg-red-vibrant border-l-8 hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
+                    <div class="p-4 flex flex-col">
+                        <a asp-controller="Vehicle" asp-action="CustomerReport" class="no-underline text-white text-lg">
+                            No.of.Customer
+                            <i class="fas fa-user fa-lg"></i>
+                        </a>
+                        <a asp-controller="Vehicle" asp-action="CustomerReport" class="no-underline text-white text-2xl">
+                            @Model.adminReport.TotalCount
+                        </a>
+                    </div>
+                </div>
+                <div class="shadow bg-info border-l-8 hover:bg-info-dark border-info-dark mb-2 p-2 md:w-1/4 mx-2">
+                    <div class="p-4 flex flex-col">
+                        <a asp-area="VehicleDetail" asp-controller="VehicleDetail" asp-action="ViewVehicleDetails" class="no-underline text-white text-lg">
+                            No.of.Vehicle
+                            <i class="fas fa-motorcycle fa-lg"></i>
+                        </a>
+                        <a asp-area="VehicleDetail" asp-controller="VehicleDetail" asp-action="ViewVehicleDetails" class="no-underline text-white text-2xl">
+                            @Model.adminReport.VehicleCount
+                        </a>
+                    </div>
+                </div>
+                <div class="shadow bg-warning border-l-8 hover:bg-warning-dark border-warning-dark mb-2 p-2 md:w-1/4 mx-2">
+                    <div class="p-4 flex flex-col">
+                        <a asp-area="Complaints" asp-controller="Complaints" asp-action="Complaints" class="no-underline text-white text-lg">
+                            Complaints of  vehicle
+                            <i class="fas fa-comment-dots fa-lg"></i>
+                        </a>
+                        <a asp-area="Complaints" asp-controller="Complaints" asp-action="Complaints" class="no-underline text-white text-2xl">
+                            @Model.adminReport.ComplaintsCount
+                        </a>
+                    </div>
+                </div>
+                <div class="shadow bg-success border-l-8 hover:bg-success-dark border-success-dark mb-2 p-2 md:w-1/4 mx-2">
+                    <div class="p-4 flex flex-col">
+                        <a asp-area="Report" asp-controller="Report" asp-action="ServiceReport" class="no-underline text-white text-lg">
+                            No.of.Feedback given by customers
+                            <i class="fa fa-comments fa-lg"></i>
+                        </a>
+                        <a asp-area="Report" asp-controller="Report" asp-action="ServiceReport" class="no-underline text-white text-2xl">
+                            @Model.adminReport.FeedbackCount
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="text-right">
+            <button class="bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-6 rounded m-2" type="button" onclick="showdiv()" name="ShowGst" />
+            SHOW GST FORM
+        </div>
+        <div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2" id="divGst">
+            <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+                <div class="bg-gray-500 px-2 py-3 border-solid border-gray-400 border-b text-center" style="color:white;font-size:30px">
+                    ADD GST PRICE
+                </div>
+                <div class="p-3">
+                    <form class="w-full" method="POST" asp-controller="Vehicle" asp-action="SaveGst">
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                                       for="grid-first-name">
+                                    <strong>Above Thousand:(In Percentage)</strong>
+                                </label>
+                                <input class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600" type="text" placeholder="For 1000 And Above percentage" asp-for="gst.AboveThousand" id="txtAbove1000" required />
+                            </div>
+                            <div class="w-full md:w-1/2 px-3">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                                       for="grid-last-name">
+                                    <strong>Lessthan Thousand:(In Percentage)</strong>
+                                </label>
+                                <input class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600" type="text" placeholder="For Lessthan 1000 percentage" asp-for="gst.LessThousand" id="txtLess1000" required>
+                            </div>
+                        </div>
+                        <div class="col-4 text-right mt-3">
+                            <button class="bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-6 rounded m-2" type="submit" />Save
+                            <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded" type="button" onclick="hidediv()" />Cancel
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="card-body">
+        <div class="form-row m-b-55">
+            <div class="name">We providing Good service for our customers</div>
+            <div class="value">
+                <div class="row row-space">
+                    <div class="col-2">
+                        <div class="input-group-desc">
+                            <img src="~/Images/photo-1567602901358-5ba00815eb15.jpg" width="500" />
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="input-group-desc">
+                            <img src="~/Images/photo-1603175922978-b10e84330c35.jpg" width="500" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row m-b-55">
+            <div class="name">100% safe and secure</div>
+            <div class="value">
+                <div class="row row-space">
+                    <div class="col-2">
+                        <div class="input-group-desc">
+                            <img src="~/Images/photo-1570129476815-ba368ac77013.jpg" width="500" />
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="input-group-desc">
+                            <img src="~/Images/photo-1613214149922-f1809c99b414.jpg" width="500" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h3 class="name">About us</h3><br />
+            <h4>
+                Address:BA Workshop,Athanavur Main Road,Yelagiri hills,Tirupattur(D.T),635853.
+            </h4>
+        </div>
+        <br />
+    </div>
+</div>
+<!-- TO use Jquery-->
+<script src="~/js/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#divGst').hide();
+        //To take the values of gst percentages
+        var Above1000 = parseInt($('#Above1000').val());
+        var Less1000 = parseInt($('#Less1000').val());
+        //Assign those values to label old percentage will be show in text box by val()
+        $('#txtAbove1000').val(Above1000);
+        $('#txtLess1000').val(Less1000);
+    });
+    function showdiv() {
+        $('#divGst').show();
+    }
+    function hidediv() {
+        $('#divGst').hide();
+    }
+</script>

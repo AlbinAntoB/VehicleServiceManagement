@@ -1,0 +1,78 @@
+﻿@model SeviceFollowCommanModel
+@using VehicleSeviceManagement.Framework.Helper;
+<!-- Main CSS-->
+<link href="~/plugins/datatables/datatables.min.css" rel="stylesheet" class="flex-auto" />
+<div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2 mb-5">
+    <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+        <div class="bg-gray-500 px-2 py-3 border-solid border-gray-400 border-b mt-4 text-center" style="color:white;font-size:30px">
+            SERVICE DETAILS
+        </div>
+        <div class="text-right mt-2">
+            @*mt-2 this is to*@
+            <input class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2" type="button" onclick="@("window.location.href='" + @Url.Action("ServiceFollowup", "Service") + "'")" value="Add Service Follow up" style="height:40px; width:300px;" />
+        </div>
+        <div class="table-responsive-md">
+            @if (Model.serviceFollowupList != null)
+            {
+                <table class="table-striped table-bordered dt-responsive nowrap  table-hover table-responsive-lg" id="mysort" style="cursor:not-allowed;">
+                    <thead class="bg-grey-dark text-white text-normal">
+                        <tr>
+                            <th class="border w-1/6 px-4 py-2">Action</th>
+                            <th class="border w-1/6 px-4 py-2">CustomerName</th>
+                            <th class="border w-1/6 px-4 py-2">DeliveryOn</th>
+                            <th class="border w-1/6 px-4 py-2">TotalPrice</th>
+                            <th class="border w-1/6 px-4 py-2">ReRepair</th> 
+                            <th class="border w-1/6 px-4 py-2">FromOn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (ServiceFollowup service in Model.serviceFollowupList)
+                        {
+                            <tr>
+                                <td class="border px-4 py-2">
+                                    <a class="bg-300 cursor-pointer rounded p-1 mx-1 text-white" asp-route-ServiceId="@service.ServiceId" asp-area="Service" asp-controller="Service" asp-action="EditService">
+                                        <i class="fas fa-edit" style="color:Highlight"></i>
+                                    </a>
+                                    <a class="bg-300 cursor-pointer rounded p-1 mx-1 text-red-500" onclick="DeleteService(@service.ServiceId)">
+                                        <i class="fas fa-trash" style="color:Highlight"></i>
+                                    </a>
+                                </td>
+                                <td>@service.CustomerName</td>
+                                <td>@Convert.ToDateTime(service.DeliveryOn).ToShortDateString()</td>
+                                <td class="text-right"><span>₹</span>@Convert.ToInt32(service.TotalPrice)</td>
+                                <td>@service.ReRepair</td>
+                                <td>@Convert.ToDateTime(service.FromOn).ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <br />
+                <div class="text-center">
+                    <h4 style="color:lightseagreen">No record found</h4>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!--/Grid Form-->
+<!-- TO use Jquery-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/plugins/datatables/datatables.min.js"></script>
+<script>
+    //This is sorting by plugin
+    $(document).ready(function () {
+        $('#mysort').DataTable();
+    });
+    // To delete service
+    function DeleteService(ServiceId) {
+        var x = confirm("Are you sure do you want to delete?");
+        var url = '@Url.Action("DeleteService", "Service")' + '?ServiceId=' + ServiceId;
+        if (x)
+            window.location.href =url;
+        else
+            return false;
+    }
+</script>

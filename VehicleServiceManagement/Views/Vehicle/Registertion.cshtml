@@ -1,0 +1,226 @@
+﻿@{
+    Layout = null;
+}
+
+@model VehicleServiceManagement.Models.CustomerCommanModel
+@*This is for set logo*@
+<link href="~/Images/Logo/vehicle.png" rel="icon">
+<link href="~/css/Registertionbootstrap.min.css" rel="stylesheet" />
+<script src="~/css/Registertionbootstrap.min.js"></script>
+<script src="~/css/jquery-1.11.1.min.js"></script>
+<link href="~/css/Mycss.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<partial name="_CommanShared" />
+<style>
+    input.error {
+        border: 1px solid red;
+        color: red;
+    }
+
+    label.error {
+        font-weight: bold;
+        color: red;
+    }
+
+    .redcolor {
+        color: red;
+    }
+
+    .Greencolor {
+        color: green;
+    }
+</style>
+<!------ Include the above in your HEAD tag ---------->
+<div class="container ">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="#" class="active" id="login-form-link">Log In</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" id="register-form-link">Register</a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form id="login-form" method="post" asp-controller="Vehicle" asp-action="CheckLogin" role="form" style="display: block;">
+                                <div class="form-group">
+                                    <input type="email" name="Email" id="Email" tabindex="1" class="form-control" placeholder="Email Id" value="" asp-for="customerModel.Email" maxlength="50" onkeypress="fnemailvalidate()" pattern="[a-z0-9._%+-]+@@[a-z0-9.-]+\.[a-z]{2,4}$" required />
+                                </div>
+                                <p id="demo"></p>
+                                <div class="form-group">
+                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" asp-for="customerModel.Password" maxlength="50" required />
+                                    <input type="checkbox" onclick="myFunction()"><label for="remember">Show Password</label>
+                                </div>
+                                <div class="form-group text-center">
+                                    <a><label onclick="@("window.location.href='" + @Url.Action("Forgetpassword", "Vehicle") + "'")">Forget password?</label></a>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-3">
+                                            <input type="submit" tabindex="3" class="form-control btn btn-login" value="Log In">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form id="register-form" method="post" asp-controller="Vehicle" asp-action="SaveCustomer" role="form" style="display: none;">
+                                <div class="form-group">
+                                    <input type="text" tabindex="1" class="form-control name-valid" placeholder="Customer Name" value="" maxlength="50" id="CustomerName" name="CustomerName" required />
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" tabindex="2" class="form-control" placeholder="Email Address" value="" id="Email" name="Email" maxlength="50" pattern="[a-z0-9._%+-]+@@[a-z0-9.-]+\.[a-z]{2,4}$" required />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" tabindex="3" class="form-control numberonly" value="" placeholder="Mobile Number" id="txtMobileNo" name="MobileNo" required maxlength="10" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" tabindex="4" class="form-control" value="" placeholder="Address" id="txtAddress" name="Address" required maxlength="100" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" tabindex="5" class="form-control" placeholder="Password" id="txtPassword" name="Password" required minlength="8" maxlength="50" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" id="txtconfirmpassword" tabindex="6" class="form-control" placeholder="Confirm Password" required minlength="8" maxlength="50" />
+                                </div>
+                                <div class="registrationFormAlert" id="CheckPasswordMatch">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-3">
+                                            <input type="submit" id="register-submit" tabindex="7" class="form-control btn btn-register" value="Register Now">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="lastDiv"></div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<!-- TO use Jquery-->
+<script src="~/js/jquery.min.js"></script>
+<!-- For jquery validation plugin -->
+<script src="~/plugins/JqueryValidation/jquery-1.11.1.min.js"></script>
+<script src="~/plugins/JqueryValidation/jquery.validate.min.js"></script>
+<script src="~/js/Registertion.js"></script>
+@*<script src="~/plugins/JqueryValidation/additional-methods.min.js"></script>*@
+<script>
+    $(document).ready(function () {
+
+        $("#lastDiv").nextAll("center").remove();
+
+        setTimeout(function () {
+
+            $("#lastDiv").nextAll("div").remove();
+
+        }, 400);
+
+        setTimeout(function () {
+
+            $("#lastDiv").nextAll("div").remove();
+
+        }, 500);
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        //To allow only numbers
+        $('.numberonly').keypress(function (e) {
+            var charCode = (e.which) ? e.which : event.keyCode
+
+            if (String.fromCharCode(charCode).match(/[^0-9]/g))
+
+                return false;
+        });
+        //To check password and confirmpassword
+        $("#txtconfirmpassword").keyup(checkPasswordMatch);
+        //To validate name field
+        $('.name-valid').on('keypress', function (e) {
+            var regex = new RegExp("^[a-zA-Z ]*$");
+            var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+            if (regex.test(str)) {
+                return true;
+            }
+            e.preventDefault();
+            return false;
+        });
+    });
+</script>
+<script>
+    // This scrtipt for to save customer details through jquery
+         function Save() {
+             var CustomerId = $('#CustomerId').val();
+             var CustomerName = $('#txtCustomerName').val();
+             var Email = $('#txtEmail').val();
+             var MobileNo= $('#txtMobileNo').val();
+             var  Address= $('#txtAddress').val();
+             var  UserName= $('#txtUserName').val();
+             var  Password= $('#txtPassword').val();
+             $.ajax({
+                 url:'@Url.Action("SaveCustomer", "Vehicle")',
+                 type: "post",
+                 data: { CustomerId: CustomerId, CustomerName: CustomerName, Email: Email, MobileNo: MobileNo, Address: Address, UserName: UserName, Password:Password },
+                 datatype: "json",
+                 traditional: true,
+                 success: function (response) {
+                 if (response) {
+                 location.replace("");
+                 }
+                 }
+                 });
+    }
+    //Jquery validation
+    jQuery.validator.setDefaults({
+        debug: true,
+        success: "valid"
+    });
+    //To validate login from
+    $("#login-form").validate({
+        Email: {
+            required: true,
+            email: true,
+            maxlength: 50
+        },
+        password: {
+            required: true,
+            maxlength: 50
+        },
+        //By this submit handler only we can able to use submit and button
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+    //To Registertion from
+    $("#register-form").validate({
+        CustomerName: {
+            required: true,
+        },
+        Email: {
+            required: true,
+            email: true
+        },
+        txtMobileNo: {
+            required: true,
+            number: true,
+            maxlength: 10
+        },
+        //By this submit handler only we can able to use submit and button
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+    //$('#login-form').on('submit', function () {
+    //    return $('#login-form').jqxValidator('validate');
+    //});
+</script>

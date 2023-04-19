@@ -1,0 +1,129 @@
+﻿@model VehicleCommanModel
+@using VehicleSeviceManagement.Framework.Helper;
+<!-- Main CSS-->
+<style>
+    .loader {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        background-color: none;
+    }
+</style>
+<div class="">
+    <div class="loader">
+        <img src="~/Images/loader.gif" width="50" />
+    </div>
+</div>
+<link href="~/plugins/datatables/datatables.min.css" rel="stylesheet" class="flex-auto" />
+<div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2 mb-5">
+    <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+        <div class="bg-gray-500 px-2 py-3 border-solid border-gray-400 border-b mt-4 text-center" style="color:white;font-size:30px">
+            VEHICLE DETAILS
+        </div>
+        <div class="text-right mt-2">
+            <input type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2" onclick="@("window.location.href='" + @Url.Action("VehicleDetails", "VehicleDetail") + "'")" value="Add New Vehicle Details" style="height:40px; width:300px;" />
+        </div>
+        <div>
+            @if (Model.vehicleDetailsList != null)
+            {
+                <table class="table-striped table-bordered dt-responsive nowrap table-hover table-responsive" id="mysort" style="cursor:not-allowed;">
+                    <thead class="bg-grey-dark text-white text-normal">
+                        <tr>
+                            <th class="border w-1/6 px-4 py-2">Action</th>
+                            <th class="border w-1/6 px-4 py-2">CustomerName</th>
+                            <th class="border w-1/6 px-4 py-2">VehicleNo</th>
+                            <th class="border w-1/6 px-4 py-2">VehicleBrand</th>
+                            <th class="border w-1/6 px-4 py-2">VehicleModel</th>
+                            <th class="border w-1/6 px-4 py-2">VehicleColor</th>
+                            <th class="border w-1/6 px-4 py-2">VehicleKmsRan</th>
+                            <th class="border w-1/6 px-4 py-2">VehicleType</th>
+                            <th class="border w-1/6 px-4 py-2">Complaints</th>
+                            <th class="border w-1/6 px-4 py-2">ExpectedDelivery</th>
+                            <th class="border w-1/6 px-4 py-2">TotalPrice</th>
+                            <th class="border w-1/6 px-4 py-2">Delivery Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (VehicleDetails vehicle in Model.vehicleDetailsList)
+                        {
+                            <tr>
+                                <td class="border px-4 py-2">
+                                    <a class="bg-300 cursor-pointer rounded p-1 mx-1 text-white" asp-route-VehicleId="@vehicle.VehicleId" asp-area="VehicleDetail" asp-controller="VehicleDetail" asp-action="EditVehicle">
+                                        <i class="fas fa-edit" style="color:Highlight"></i>
+                                    </a>
+                                    <a class="bg-300 cursor-pointer rounded p-1 mx-1 text-red-500" onclick="DeleteVehicle(@vehicle.VehicleId)">
+                                        <i class="fas fa-trash" style="color:Highlight"></i>
+                                    </a>
+                                </td>
+
+                                <td>@vehicle.CustomerName</td>
+                                <td>@vehicle.VehicleNo</td>
+                                <td>@vehicle.VehicleBrand</td>
+                                <td>@vehicle.VehicleModel</td>
+                                <td>@vehicle.VehicleColor</td>
+                                <td>@vehicle.VehicleKmsRan</td>
+                                <td>
+                                    @for (int j = 0; j < Model.vehicleTypesList.Count; j++)
+                                    {
+                                        String Count = @vehicle.VehicleTypeId.ToString();
+                                        if (Count.Contains(Model.vehicleTypesList[j].VehicleTypeId.ToString()))
+                                        {
+                                            @Model.vehicleTypesList[j].VehicleType
+
+                                        }
+
+                                    }
+                                </td>
+                                <td>
+                                    @for (int j = 0; j < Model.customerComplaintsList.Count; j++)
+                                    {
+                                        String Count = @vehicle.ComplaintId.ToString();
+                                        if (Count.Contains(Model.customerComplaintsList[j].ComplaintId.ToString()))
+                                        {
+                                            @Model.customerComplaintsList[j].Complaints<span>,</span>
+
+                                        }
+
+                                    }
+                                </td>
+                                <td>@ConversionHelper.ToDateTime(vehicle.ExpectedDelivery).ToShortDateString()</td>
+                                <td class="text-right"><span>₹</span>@Convert.ToInt32(vehicle.TotalPrice)</td>
+                                <td>@vehicle.DeliveryStatus</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <br />
+                <div class="text-center">
+                    <h4 style="color:lightseagreen">No record found</h4>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!--/Grid Form-->
+<!-- TO use Jquery-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/plugins/datatables/datatables.min.js"></script>
+<script>
+     //This is sorting by plugin
+    $(document).ready(function () {
+        $('#mysort').DataTable();
+    })
+    //To use loader
+    $(window).load(function () {
+        $(".loader").fadeOut("slow");
+    });
+    // To delete vehicle
+    function DeleteVehicle(VehicleId) {
+        var x = confirm("Are you sure do you want to delete?");
+        var url = '@Url.Action("DeleteVehicle", "VehicleDetail")' +'?VehicleId=' + VehicleId;
+        if (x)
+            window.location.href = url;
+        else
+            return false;
+    }
+</script>

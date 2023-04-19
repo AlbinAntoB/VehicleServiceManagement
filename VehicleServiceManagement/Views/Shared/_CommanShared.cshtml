@@ -1,0 +1,45 @@
+﻿<link href="~/toastr/toastr.css" rel="stylesheet" />
+<script src="~/js/jquery.min.js"></script>
+<script src="~/toastr/toastr.js"></script>
+<script>
+    $(document).ready(function () {
+        if ("@TempData["ToastrMessage"]" != null)
+    ShowToastr(@Html.Raw(TempData["ToastrMessage"]));
+
+    });
+    function ShowToastr(message, title, type) {
+        toastr.options = {
+            "closeButton": false, // true/false
+            "debug": false, // true/false
+            "newestOnTop": false, // true/false
+            "progressBar": false, // true/false
+            "positionClass": "toast-top-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
+            "preventDuplicates": false, //true//false
+            "onclick": null,
+            "showDuration": "3000000", // in milliseconds
+            "hideDuration": "100", // in milliseconds
+            "timeOut": "3000", // in milliseconds
+            "extendedTimeOut": "1000", // in milliseconds
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        switch (type) {
+            case "success":
+                toastr.success(message, title);
+                break;
+            case "warning":
+                toastr.warning(message, title);
+                break;
+            case "error":
+                toastr.error(message, title);
+                break;
+            case "info":
+                toastr.info(message, title);
+                break;
+            default:
+                break;
+        }
+    }
+</script>

@@ -1,0 +1,288 @@
+﻿@using VehicleSeviceManagement.Framework;
+@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="keywords" content="tailwind,tailwindcss,tailwind css,css,starter template,free template,admin templates, admin template, admin dashboard, free tailwind templates, tailwind example">
+    <!-- Css -->
+    @*This is for set logo*@
+    <link href="~/Images/Logo/vehicle.png" rel="icon">
+    <partial name="_CommanShared" />
+    <link rel="stylesheet" href="@Url.Content("~/toastr/toastr.css")" type="text/css" />
+    <link rel="stylesheet" href="~/dist/styles.css">
+    <link rel="stylesheet" href="~/dist/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet">
+    <title>Dashboard |Vehicle Service Management</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <!--Container -->
+    <div class="mx-auto bg-grey-400">
+        <!--Screen-->
+        <div class="min-h-screen flex flex-col">
+            <!--Header Section Starts Here-->
+            <header class="bg-gray-600">
+                <div class="flex justify-between">
+                    <div class="p-1 mx-3 inline-flex items-center">
+                        <i class="fas fa-bars pr-2 text-white" onclick="sidebarToggle()"></i>
+                        <h1 class="text-white p-2">Vehicle Service Management</h1>
+                    </div>
+                    <div class="p-1 flex flex-row items-center">
+                        <img onclick="profileToggle()" class="inline-block h-8 w-8 rounded-full mt-8" src="~/images/download.png" alt="">
+                        <a href="#" onclick="profileToggle()" class="text-white p-2 no-underline hidden md:block lg:block mt-8">My profile</a>
+                        <div id="ProfileDropDown" class="rounded hidden shadow-md bg-white absolute pin-t mt-12 mr-1 pin-r">
+                            <ul class="list-reset">
+                                <li><a href="#" class="no-underline px-4 py-2 block text-black hover:bg-grey-light">@Context.Session.GetString(MessageCatalog.Customer.CustomerProperty.CUSTOMERNAME)</a></li>
+                                <li><hr class="border-t mx-2 border-grey-ligght"></li>
+                                <li><a asp-controller="Vehicle" asp-action="Forgetpassword" class="no-underline px-4 py-2 block text-black hover:bg-grey-light">Change Password</a></li>
+                                <li><hr class="border-t mx-2 border-grey-ligght"></li>
+                                <li><a asp-controller="Vehicle" asp-action="Registertion" class="no-underline px-4 py-2 block text-black hover:bg-grey-light">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!--/Header-->
+            <div class="flex flex-1">
+                <!--Sidebar-->
+                @{
+                    var UserPermision = Context.Session.GetInt32(MessageCatalog.Customer.CustomerProperty.USERROLL);
+                }
+                @if (UserPermision == 1)
+                {
+                    <aside id="sidebar" class="bg-side-nav w-1/2 md:w-1/6 lg:w-1/6 border-r border-side-nav hidden md:block lg:block font-weight-bold">
+                        <ul class="list-reset flex flex-col">
+                            <li class="w-full h-full py-3 px-2 border-b border-light-border">
+                                <a asp-controller="Vehicle" asp-action="Index"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="fas fa-tachometer-alt float-left mx-2"></i>
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2 border-b border-light-border">
+                                <a asp-area="VehicleDetail" asp-controller="VehicleDetail" asp-action="ViewVehicleDetails"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="fas fa-grip-horizontal float-left mx-2"></i>
+                                    View Vehicle Details
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2 border-b border-light-border">
+                                <a asp-area="VehicleDetail" asp-controller="VehicleDetail" asp-action="VehicleDetails"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="fab fa-wpforms float-left mx-2"></i>
+                                    Vehicle Details
+                                </a>
+                            </li>
+                            @*<li class="w-full h-full py-3 px-2 border-b border-light-border">
+                                    <a asp-area="VehicleDetail" asp-controller="VehicleDetail" asp-action="VehicleDetail"
+                                       class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                        <i class="fab fa-wpforms float-left mx-2"></i>
+                                        Details
+                                    </a>
+                                </li>*@
+                            <li class="w-full h-full py-3 px-2 border-b border-light-border">
+                                <a asp-area="Complaints" asp-controller="Complaints" asp-action="Complaints"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="fas fa-grip-horizontal float-left mx-2"></i>
+                                    View Complaints
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2 border-b border-light-border">
+                                <a asp-area="Complaints" asp-controller="Complaints" asp-action="Complaintsform"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="fab fa-wpforms float-left mx-2"></i>
+                                    Companits
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2">
+                                <a asp-area="Report" asp-controller="Report" asp-action="Feedback"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="far fa-file float-left mx-2"></i>
+                                    Feedback
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2">
+                                <a asp-area="Service" asp-controller="Service" asp-action="ViewServiceFollowup"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="fas fa-grip-horizontal float-left mx-2"></i>
+                                    View Service Followup
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2">
+                                <a asp-area="Service" asp-controller="Service" asp-action="ServiceFollowup"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="fab fa-wpforms float-left mx-2"></i>
+                                    Service Followup
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2">
+                                <a asp-controller="Vehicle" asp-action="CustomerReport"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="far fa-file float-left mx-2"></i>
+                                    Customer Details Report
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2">
+                                <a asp-area="Report" asp-controller="Report" asp-action="Report"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="far fa-file float-left mx-2"></i>
+                                    Vehicle Details Report
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2">
+                                <a asp-area="Report" asp-controller="Report" asp-action="ServiceReport"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="far fa-file float-left mx-2"></i>
+                                    Feedback Report
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+                }
+                else
+                {
+                    <aside id="sidebar" class="bg-side-nav w-1/2 md:w-1/6 lg:w-1/6 border-r border-side-nav hidden md:block lg:block">
+                        @*style="width: 16.666667%;"*@
+                        <ul class="list-reset flex flex-col">
+                            <li class=" w-full h-full py-3 px-2 border-b border-light-border">
+                                <a asp-controller="Vehicle" asp-action="Index"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="fas fa-tachometer-alt float-left mx-2"></i>
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2 border-b border-light-border">
+                                <a asp-area="VehicleDetail" asp-controller="VehicleDetail" asp-action="ViewVehicleDetails"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="fas fa-grip-horizontal float-left mx-2"></i>
+                                    View Vehicle Details
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2 border-b border-light-border">
+                                <a asp-area="VehicleDetail" asp-controller="VehicleDetail" asp-action="VehicleDetails"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="fab fa-wpforms float-left mx-2"></i>
+                                    Vehicle Details
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2">
+                                <a asp-area="Report" asp-controller="Report" asp-action="Feedback"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="far fa-file float-left mx-2"></i>
+                                    Feedback
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2">
+                                <a asp-area="Service" asp-controller="Service" asp-action="ViewServiceFollowup"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="far fa-file float-left mx-2"></i>
+                                    View Service Followup
+                                </a>
+                            </li>
+                            <li class="w-full h-full py-3 px-2">
+                                <a asp-area="Service" asp-controller="Service" asp-action="ServiceFollowup"
+                                   class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline">
+                                    <i class="far fa-file float-left mx-2"></i>
+                                    Service Followup
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+                }
+                <!--/Sidebar-->
+                <div class="container">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                </div>
+                <!--Footer -->
+                @*<div class="border-top footer text-muted">
+                    <footer class="bg-grey-darkest text-white p-2">
+                        <div class="flex flex-1 mx-auto">&copy; Vehicle Service Management</div>
+                    </footer>
+
+                    </div>*@
+                <!--Footer -->
+                <footer class="border-top footer text-muted bg-gray-900">
+                    <div class="bg-grey-darkest text-white p-2 text-center">
+                        &copy; 2021 - VehicleServiceManagement  --- BA Corporation
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    @*To use toastr*@
+    <script src="~/js/jquery.min.js"></script>
+    <div id="lastDiv"></div>
+    <script>
+        $(document).ready(function () {
+
+            $("#lastDiv").nextAll("center").remove();
+
+            setTimeout(function () {
+
+                $("#lastDiv").nextAll("div").remove();
+
+            }, 400);
+
+            setTimeout(function () {
+
+                $("#lastDiv").nextAll("div").remove();
+
+            }, 500);
+
+        });
+    </script>
+    <script src="~/toastr/toastr.js"></script>
+    <script>
+    $(document).ready(function () {
+        if ("@TempData["ToastrMessage"]" != null)
+    ShowToastr(@Html.Raw(TempData["ToastrMessage"]));
+
+    });
+    function ShowToastr(message, title, type) {
+        toastr.options = {
+            "closeButton": false, // true/false
+            "debug": false, // true/false
+            "newestOnTop": false, // true/false
+            "progressBar": false, // true/false
+            "positionClass": "toast-top-right", // toast-top-right / toast-top-left / toast-bottom-right / toast-bottom-left
+            "preventDuplicates": false, //true//false
+            "onclick": null,
+            "showDuration": "3000000", // in milliseconds
+            "hideDuration": "100", // in milliseconds
+            "timeOut": "3000", // in milliseconds
+            "extendedTimeOut": "1000", // in milliseconds
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        switch (type) {
+            case "success":
+                toastr.success(message, title);
+                break;
+            case "warning":
+                toastr.warning(message, title);
+                break;
+            case "error":
+                toastr.error(message, title);
+                break;
+            case "info":
+                toastr.info(message, title);
+                break;
+            default:
+                break;
+        }
+    }
+    </script>
+    <script src="~/js/jquery-3.31.min.js"></script>
+    <script src="~/dist/main.js"></script>
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables/jquery.dataTables.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

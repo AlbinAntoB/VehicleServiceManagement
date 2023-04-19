@@ -1,0 +1,18 @@
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.Framework\bin\Release\netcoreapp2.2\VehicleServiceManagement.Framework.deps.json
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.Framework\bin\Release\netcoreapp2.2\VehicleServiceManagement.Framework.dll
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.Framework\bin\Release\netcoreapp2.2\VehicleServiceManagement.Framework.pdb
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.csprojAssemblyReference.cache
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.csproj.CoreCompileInputs.cache
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.AssemblyInfoInputs.cache
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.AssemblyInfo.cs
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.dll
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.pdb
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.Framework\bin\Release\netcoreapp2.2\VehicleServiceManagement.Framework.deps.json
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.Framework\bin\Release\netcoreapp2.2\VehicleServiceManagement.Framework.dll
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.Framework\bin\Release\netcoreapp2.2\VehicleServiceManagement.Framework.pdb
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.csprojAssemblyReference.cache
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.csproj.CoreCompileInputs.cache
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.AssemblyInfoInputs.cache
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.AssemblyInfo.cs
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.dll
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.Framework\obj\Release\netcoreapp2.2\VehicleServiceManagement.Framework.pdb

@@ -1,0 +1,89 @@
+﻿@model ComplaintsCommanModel
+@using VehicleSeviceManagement.Framework.Helper;
+<!-- Main CSS-->
+<link href="~/plugins/datatables/datatables.min.css" rel="stylesheet" class="flex-auto" />
+<div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2 mb-5">
+    <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+        <div class="bg-gray-500 px-2 py-3 border-solid border-gray-400 border-b mt-4 text-center" style="color:white;font-size:30px">
+            COMPLAINT DETAILS
+        </div>
+        <div class="text-right mt-2">
+            <input class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2" type="button" onclick="@("window.location.href='" + @Url.Action("Complaintsform", "Complaints") + "'")" value="Add New Complaint" style="height:40px; width:300px;" />
+        </div>
+        <div class="table-responsive-md">
+            @if (Model.customerComplaintsList != null)
+            {
+                <table class="table-striped table-bordered dt-responsive nowrap table-hover table-responsive-lg" id="mysort" style="cursor:not-allowed;">
+                    <thead class="bg-grey-dark text-white text-normal">
+                        <tr>
+                            <th class="border w-1/6 px-4 py-2">Action</th>
+                            <th class="border w-1/6 px-4 py-2">Complaints</th>
+                            <th class="border w-1/6 px-4 py-2 text-right">Price</th>
+                            <th class="border w-1/6 px-4 py-2">VehicleType</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (CustomerComplaints complaints in Model.customerComplaintsList)
+                        {
+                            <tr>
+                                <td class="border px-4 py-2">
+                                    <a class="bg-300 cursor-pointer rounded p-1 mx-1 text-white" asp-route-ComplaintId="@complaints.ComplaintId" asp-area="Complaints" asp-controller="Complaints" asp-action="EditComplaint">
+                                        <i class="fas fa-edit" style="color:Highlight"></i>
+                                    </a>
+                                    <a class="bg-300 cursor-pointer rounded p-1 mx-1 text-red-500" onclick="Deletecomplaints(@complaints.ComplaintId)">
+                                        <i class="fas fa-trash" style="color:Highlight"></i>
+                                    </a>
+                                </td>
+                                <td>@complaints.Complaints</td>
+                                <td class="text-right"><span>₹</span>@Convert.ToInt32(complaints.Price)</td>
+                                <td>
+                                    @for (int j = 0; j < Model.vehicleTypesList.Count; j++)
+                                    {
+                                        String Count = @complaints.VehicleTypeId.ToString();
+                                        if (Count.Contains(Model.vehicleTypesList[j].VehicleTypeId.ToString()))
+                                        {
+                                            @Model.vehicleTypesList[j].VehicleType
+
+                                        }
+
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <br />
+                <div class="text-center">
+                    <h4 style="color:lightseagreen">No record found</h4>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- TO use Jquery-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/plugins/datatables/datatables.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    //To Deletecomplaints
+    function Deletecomplaints(ComplaintId) {
+        var x = confirm("Are you sure do you want to delete?");
+        var url = '@Url.Action("DeleteComplaint", "Complaints")' + '?ComplaintId=' + ComplaintId;
+        if (x)
+            //"/Vehicle/DeleteComplaint?ComplaintId=" + ComplaintId
+            window.location.href = url;
+        else
+            return false;
+    }
+</script>
+<script>
+    //This is for sorting by plugin
+    $(document).ready(function () {
+        $('#mysort').DataTable();
+    });
+</script>

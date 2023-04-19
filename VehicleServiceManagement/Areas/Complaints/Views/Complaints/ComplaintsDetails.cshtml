@@ -1,0 +1,99 @@
+﻿@model ComplaintsCommanModel
+<!--Grid Form-->
+<style>
+    input.error {
+        border: 1px solid red;
+        color: red;
+    }
+
+    label.error {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+<div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2">
+    <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+        <div class="bg-gray-500 px-2 py-3 border-solid border-gray-400 border-b mt-4 text-center" style="color:white;font-size:30px">
+            COMPLAINT DETAILS
+        </div>
+        <div class="p-3">
+            <form class="w-full" id="Complaints" method="POST" asp-area="Complaints" asp-controller="Complaints" asp-action="SaveComplaints">
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <input type="hidden" asp-for="customerComplaints.ComplaintId" @*name="ComplaintId" *@ />
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-first-name">
+                            <strong>Complaints:<span style="color:red;">*</span></strong>
+                        </label>
+                        <input class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600" type="text" placeholder="Complaints" asp-for="customerComplaints.Complaints" id="Complaints" required maxlength="100" />
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-last-name">
+                            <strong>Price:<span style="color:red;">*</span></strong>
+                        </label>
+                        <input class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600 numberonly" type="text" placeholder="Price" asp-for="customerComplaints.Price" id="price" required maxlength="9">
+                    </div>
+                </div>
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1"
+                               for="grid-state">
+                            <strong>VehicleType: (Select VehicleType)</strong>
+                        </label>
+                        <select id="dropdown" asp-for="customerComplaints.VehicleTypeId" name="VehicleTypeId" class="appearance-none block w-full bg-gray-200 text-grey-darker border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white-500 focus:border-gray-600">
+                            @for (int i = 0; i < Model.vehicleTypesList.Count; i++)
+                            {
+                                <option value="@Model.vehicleTypesList[i].VehicleTypeId">@Model.vehicleTypesList[i].VehicleType</option>
+                            }
+                        </select>
+                        @*<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-grey-darker">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                            </div>*@
+                    </div>
+                    <div class="col-4 mt-3 text-right">
+                        <button class="bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-6 rounded m-2" type="submit" />Save
+                        <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded" type="reset" />Cancel
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!--/Grid Form-->
+<!-- TO use Jquery-->
+<script src="~/js/jquery.min.js"></script>
+<!-- For jquery validation plugin -->
+<script src="~/plugins/JqueryValidation/jquery-1.11.1.min.js"></script>
+<script src="~/plugins/JqueryValidation/jquery.validate.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        //This is to allow only number
+        $('.numberonly').keypress(function (e) {
+
+            var charCode = (e.which) ? e.which : event.keyCode
+
+            if (String.fromCharCode(charCode).match(/[^0-9]/g))
+
+                return false;
+        });
+    });
+    
+    //Jquery validation
+    jQuery.validator.setDefaults({
+        debug: true,
+        success: "valid"
+    });
+    //To validate login from
+    $("#Complaints").validate({
+        //By this submit handler only we can able to use submit and button
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+</script>

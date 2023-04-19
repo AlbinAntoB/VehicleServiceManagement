@@ -1,0 +1,157 @@
+﻿@model reportCommanModel
+<!-- Main CSS-->
+<link href="~/plugins/datatables/datatables.min.css" rel="stylesheet" />
+<div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2 mb-6">
+    <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
+        <div class="bg-gray-500 px-2 py-3 border-solid border-gray-400 border-b mt-4 text-center" style="color:white;font-size:30px">
+            FEEDBACK REPORT
+        </div>
+        <br />
+        <div class="table-responsive-md " id="ExportHtml">
+            <div>
+                @if (Model.feedbackList != null)
+                {
+                    <table class="table table-striped table-bordered nowrap dt-responsive table-hover table-responsive mytable" style="width:99.9%;cursor:not-allowed;" id="mysort">
+                        <thead class="bg-grey-dark text-white text-normal">
+                            <tr>
+
+                                <th class="border w-1/6 px-4 py-2">CustomerName</th>
+                                <th class="border w-1/6 px-4 py-2">OverAll</th>
+                                <th class="border w-1/6 px-4 py-2">AllProblems</th>
+                                <th class="border w-1/6 px-4 py-2">DeliveryVehicle</th>
+                                <th class="border w-1/6 px-4 py-2">Anyothersuggestions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div class="row noprint text-right">
+                                <div class="col-md-6 float-right noprint">
+                                    <a onclick="printScrollingDiv()" title="Print"><i class="fa fa-print"></i>Print</a>
+                                    <a asp-area="Report" asp-controller="Report" asp-action="Export" onclick="ExportData(2,'Report');" title="Export To Excel" style="color:green"><i class="fa fa-file-excel"></i>Excel</a>
+                                    <a asp-area="Report" asp-controller="Report" asp-action="Export" onclick="ExportData(1,'Report');" title="Export To Word" style="color:blue"><i class="fa fa-file-word"></i>Word</a>
+                                </div>
+                            </div>
+                            @foreach (Feedback service in Model.feedbackList)
+                            {
+                                <tr>
+
+                                    <td>@service.CustomerName</td>
+                                    <td>@service.OverAll</td>
+                                    <td>@service.AllProblems</td>
+                                    <td>@service.DeliveryVehicle</td>
+                                    <td>@service.Anyothersuggestions</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <br />
+                    <div class="text-center">
+                        <h4 style="color:lightseagreen">No record found</h4>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div id="export-content">
+</div>
+<!--/Grid Form-->
+<!-- TO use Jquery-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/plugins/datatables/datatables.min.js"></script>
+<script>
+    //This is for sorting by plugin
+    $(document).ready(function () {
+        $('#mysort').DataTable();
+    });
+    //This is for exporting excel,wordm, print
+        function printScrollingDiv(divName, paging) {
+        if (!paging) {
+            paging = 0;
+        }
+        if (paging != 0) {
+            var table = $('.table').DataTable();
+            var pagelength = table.page.len();
+            table.page.len(-1).draw();
+        }
+        $("#export-content").html($("#ExportHtml").html());
+        $("#export-content").find(".dataTables_filter").remove();
+        $("#export-content").find(".dataTables_info").remove();
+        $("#export-content").find(".dataTables_length").remove();
+        $("#export-content").find(".dataTables_paginate").remove();
+        $("#export-content").find(".noprint").remove();
+        var header = "<html> <head><style> table { font-size:8pt !important; width: auto  !important; overflow: hidden !important;} " +
+            " body{  font-family: Verdana, Arial, Helvetica, sans-serif; color: #000000; font-style: normal; }" +
+            " p{ font-size: 8pt; } label{ font-size: 8pt; }" +
+            " .pagecaption 	{ font-weight: bold; font-size: 16pt; }" +
+            " h4	{ margin-bottom:2px  !important;font-size: 12pt;} h5,h6{ margin:5px 0 5px  !important;  font-size: 10pt; font-weight:bold !important;} h6	{ font-weight: normal; font-size: 10pt   !important; }" +
+            " table			{ border-top: gray 1px solid; border-left: gray 1px solid; font-size:8pt;border-collapse: collapse;width:auto !important;min-width:50% !importnat}" +
+            "  table td		{ border-right: gray 1px solid; border-bottom: gray 1px solid; padding: 3px;border-collapse: collapse;}" +
+            " table th		{ border-right: gray 1px solid; border-bottom: gray 1px solid; padding: 3px; font: bold; background-color: #CCCCCC; text-align: left;border-collapse: collapse;margin:0 !important; }" +
+            "a{text-decoration: none;pointer-events:none;color:#000;}.dataTables_empty{text-align:center}" +
+            "h5 {font-weight: 700 !important;font-size: 9pt!important;}" +
+            "h6 {font-weight: normal!important;font-size: 9pt!important;}" +
+            "</style>  <title>Vehicle Service Management</title></head><body>";
+        var footer = "</body></html>";
+        var export_data = header + $("#export-content").html() + footer;
+        $("#export-content").html('');
+        var w = window.open();
+        var html = export_data;
+        $(w.document.body).html(html);
+        if (paging != 0) {
+            table.page.len(pagelength).draw();
+        }
+    }
+    function ExportData(export_type, file_name, paging = 0) {
+        if (paging != 0) {
+            var table = $('.mytable').DataTable();
+            var pagelength = table.page.len();
+            table.page.len(-1).draw();
+        }
+        $("#export-content").html($("#ExportHtml").html());
+        $("#export-content").find(".noprint").remove();
+        $("#export-content").find(".dataTables_filter").remove();
+        $("#export-content").find(".dataTables_info").remove();
+        $("#export-content").find(".dataTables_length").remove();
+        $("#export-content").find(".dataTables_paginate").remove();
+        var header = "<html> <head><style> table { font-size:9pt; } " +
+            " body{  font-family: Verdana, Arial, Helvetica, sans-serif; color: #000000; font-style: normal; }" +
+            " p{ font-size: 8pt; } label{ font-size: 8pt; }" +
+            " .pagecaption 	{ font-weight: bold; font-size: 16pt; }" +
+
+            "  h4	{ margin-bottom:2px  !important;font-size: 12pt;} h5,h6{ margin:5px 0 5px  !important;  font-size: 10pt;} h6	{ font-weight: bold; font-size: 10pt   !important; }" +
+            " table			{ border-top: gray 1px solid; border-left: gray 1px solid; font-size:8pt;border-collapse:collapse}" + ".table_positionset{ margin-top:10px !important;}" +
+            "  table td		{ border-right: gray 1px solid; border-bottom: gray 1px solid; padding: 3px;}" +
+            " table th		{ border-right: gray 1px solid; border-bottom: gray 1px solid; padding: 3px; font: bold; background-color: #CCCCCC; text-align: left; }" +
+            ".dataTables_scrollBody table thead {display:none !important}" +
+            "a{text-decoration: none;pointer-events:none;color:#000;}.dataTables_empty{text-align:center}" +
+
+            "h5 {font-weight: normal!important;font-size: 9pt!important;}" +
+            "h6 {font-weight: normal!important;font-size: 9pt!important;}" +
+            "</style>  <title>Option C</title></head><body>";
+        var footer = "</body></html>";
+        var export_data = header + $("#export-content").html() + footer;
+        $("#export-content").html('');
+
+        // This will be called when the action clicked
+        $.ajax({
+            url:'@Url.Action("SetExportOptions","Report")',
+            data: { exportHtml: export_data, exportType: export_type, fileName: file_name },
+            cache: false,
+            async: false,
+            type: "POST",
+            success: function (data) {
+
+            },
+            error: function (reponse) {
+
+            }
+        });
+
+        if (paging != 0) {
+            table.page.len(pagelength).draw();
+        }
+    }
+</script>

@@ -1,0 +1,279 @@
+﻿@model VehicleCommanModel
+@using Microsoft.AspNetCore.Http
+@using VehicleSeviceManagement.Framework;
+<!-- Icons font CSS-->
+<link href="~/Vehicle/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+<link href="~/Vehicle/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+<!-- Font special for pages-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+<!-- Vendor CSS-->
+<link href="~/Vehicle/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+<link href="~/Vehicle/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+<!-- Main CSS-->
+<link href="~/Vehicle/css/main.css" rel="stylesheet" />
+<!-- TO use Multiselect option-->
+<link href="~/Multidropdown/choices.min.css" rel="stylesheet" />
+<style>
+    input.error {
+        border: 1px solid red;
+        color: red;
+    }
+
+    label.error {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+@*This is hidden field of gst price percentage*@
+<input type="hidden" id="Above1000" value="@Context.Session.GetString(MessageCatalog.Customer.CustomerProperty.ABOVETHOUSAND)" />
+<input type="hidden" id="Less1000" value="@Context.Session.GetString(MessageCatalog.Customer.CustomerProperty.LESSTHOUSAND)" />
+<div class="wrapper wrapper--w980">
+    <div class="card card-5 mt-4">
+        <div class="card-heading">
+            <h2 class="title">Vehicle Details</h2>
+        </div>
+        <div class="card-body">
+            <form id="Vehicle" method="POST" asp-area="VehicleDetail" asp-controller="VehicleDetail" asp-action="SaveVehicle">
+                <div class="form-row m-b-55">
+                    <div class="name">Vehicle No</div>
+                    <input type="hidden" asp-for="vehicleDetails.VehicleId" name="VehicleId" />
+                    <div class="value">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" type="text" placeholder="Vehicle No" asp-for="vehicleDetails.VehicleNo" name="VehicleNo" maxlength="8" required />
+                                    <span>Vehicle No</span>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" type="text" placeholder="Vehicle Brand" asp-for="vehicleDetails.VehicleBrand" name="VehicleBrand" maxlength="25" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" />
+                                    <span>Vehicle Brand</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row m-b-55">
+                    <div class="name">VehicleModel</div>
+                    <div class="value">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5 numberonly" type="text" placeholder="Vehicle Model" asp-for="vehicleDetails.VehicleModel" name="VehicleModel" minlength="4" maxlength="4" id="VehicleModel" required />
+                                    <span>Vehicle Model</span>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" type="text" placeholder="Vehicle Color" asp-for="vehicleDetails.VehicleColor" name="VehicleColor" maxlength="25" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" />
+                                    <span>Vehicle Color</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row m-b-55">
+                    <div class="name">VehicleKmsRan</div>
+                    <div class="value">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5 numberonly" type="text" placeholder="Vehicle Kms Ran" asp-for="vehicleDetails.VehicleKmsRan" name="VehicleKmsRan" id="VehicleKmsRan" maxlength="15" required />
+                                    <span>Vehicle Kms Ran</span>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select id="dropdown" onchange="ComplaintsDropdown()" asp-for="vehicleDetails.VehicleTypeId" name="VehicleTypeId" placeholder="Select VehicleType"></select>
+                                        <div class="select-dropdown"></div>
+                                        <span>Select an Vehicle Type</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="name">Select Complaints</div>
+                    <div class="value">
+                        <div class="input-group">
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select id="complaintdropdown" placeholder="Select an Complaints" multiple asp-for="vehicleDetails.ComplaintId" onchange="Price()" name="ComplaintId">
+                                    Complaints
+                                </select>
+                                <div class="select-dropdown"></div>
+                                <span>Select an Multiple complaints if it is occur in your vehicle</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tblcomplaint">
+                    <table class="table-striped table-bordered nowrap table-hover table-responsive-lg">
+                        <thead class="bg-grey-dark text-white text-normal">
+                            <tr>
+                                <th class="border w-1/6 px-4 py-2">Complaints And Price</th>
+                                <th class="border w-1/6 px-4 py-2">GST Amount</th>
+                                <th class="border w-1/6 px-4 py-2">Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <br />
+                <div class="name font-weight-bold" id="divgst">GST Total Price is:<label id="lblgsttotal"></label></div>
+                <div class="form-row m-b-55">
+                    <div class="name">Total Price With GST</div>
+                    <div class="value">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5 numberonly" type="text" placeholder="Estimate Price" required asp-for="vehicleDetails.TotalPrice" name="TotalPrice" id="TotalPrice" readonly />
+                                    <strong>Note:<span class="font-weight-bold" style="color:red">Price is 1000 Above <label id="lblAbove1000"></label>% AND Less than 1000 is <label id="lblLess1000"></label>%</span></strong>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group-desc">
+                                    <input class="input--style-5" style="padding:0.0px" type="date" placeholder="Delivery Date" asp-for="vehicleDetails.ExpectedDelivery" name="ExpectedDelivery" id="ExpectedDelivery">
+                                    <span>Estimate Delivery Date</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Context.Session.GetInt32(MessageCatalog.Customer.CustomerProperty.USERROLL) == 1)
+                {
+
+                    <div class="form-row m-b-55">
+                        <div class="name">Delivery Status</div>
+                        <div class="value">
+                            <div class="row row-space">
+                                <div class="col-2">
+                                    <div class="input-group-desc">
+                                        <input class="input--style-5" type="text" placeholder="Delivery Status" asp-for="vehicleDetails.DeliveryStatus" name="DeliveryStatus" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+
+                }
+                @*<div class="text-right">
+                        <button class="btn btn--radius-2 btn--red" type="button">Add New Complaint</button>
+                    </div>*@
+                <!-- To align an Button in right cornor-->
+                <div class="text-right">
+                    <button class="bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-6 rounded m-2" type="submit" />Save
+                    <button class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded" type="reset" />Cancel
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Jquery JS-->
+<script src="~/Vehicle/vendor/jquery/jquery.min.js"></script>
+<!-- Vendor JS-->
+<script src="~/Vehicle/vendor/select2/select2.min.js"></script>
+<script src="~/Vehicle/vendor/datepicker/moment.min.js"></script>
+<script src="~/Vehicle/vendor/datepicker/daterangepicker.js"></script>
+<!-- Main JS-->
+<script src="~/Vehicle/js/global.js"></script>
+
+<!-- TO use Multiselect-->
+<script src="~/Multidropdown/choices.min.js"></script>
+<!-- TO use Jquery-->
+<script src="~/js/jquery.min.js"></script>
+<!-- For jquery validation plugin -->
+<script src="~/plugins/JqueryValidation/jquery-1.11.1.min.js"></script>
+<script src="~/plugins/JqueryValidation/jquery.validate.min.js"></script>
+<script src="~/js/VehicleDetails.js"></script>
+<script>
+    $(document).ready(function () {
+        //To hide gst div
+        $('#divgst').hide();
+        //To take the values of gst percentages
+        var Above1000 = parseInt($('#Above1000').val());
+        var Less1000 = parseInt($('#Less1000').val());
+        //Assign those values to label
+        $('#lblAbove1000').text(Above1000);
+        $('#lblLess1000').text(Less1000);
+        //To hide div while page load
+        $('#tblcomplaint').hide();
+        // This will not allow past date
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        $('#ExpectedDelivery').attr("min", today);
+        // This function will be called when page get loaded
+        VehicleDropdown();
+        //This is to allow only number
+        $('.numberonly').keypress(function (e) {
+
+            var charCode = (e.which) ? e.which : event.keyCode
+
+            if (String.fromCharCode(charCode).match(/[^0-9]/g))
+
+                return false;
+        });
+    });
+    //To fetch the vehicle dropdown value on document ready time
+    function VehicleDropdown(IsSeleted) {
+             $.ajax({
+                url: '@Url.Action("GetVehicleType","VehicleDetail")',
+                type: 'POST',
+                datatype:'json',
+                 cache: false,
+                 async:false,
+                 success: function (customerCommanModel) {
+                     if(customerCommanModel.vehicleTypesList!= null) {
+                         BindDropdown(customerCommanModel.vehicleTypesList, "#dropdown", "vehicleTypeId", "vehicleType");
+                         $('#dropdown').val('@Model.vehicleDetails.VehicleTypeId').trigger('change');
+                    }
+
+                }
+             });
+        //if(IsSeleted>0) {
+        //    $('#dropdown').val(IsSeleted);
+        //}
+    }
+     //To fetch the Complaints dropdown value based on the vehicletypeId
+    function ComplaintsDropdown() {
+        var VehicleTypeId = $('#dropdown').val();
+             $.ajax({
+                url: '@Url.Action("GetComplaints", "VehicleDetail")',
+                 type: 'POST',
+                 data: { VehicleTypeId, VehicleTypeId},
+                datatype:'json',
+                 cache: false,
+                 async: false,
+                 success: function (customerCommanModel) {
+                     //var lstCustomers = $("[id*=complaintdropdown]");
+                     //lstCustomers.empty();
+                     if (customerCommanModel.customerComplaintsList != null) {
+                         BindDropdown1(customerCommanModel.customerComplaintsList,"#complaintdropdown","complaintId","complaints","price");
+                         var complaint = '@Model.vehicleDetails.ComplaintId';
+                         $('#complaintdropdown').val(complaint.split(','));
+                    }
+                }
+             });
+            //VehicleDropdown(VehicleTypeId);
+    }
+    //Jquery validation
+    jQuery.validator.setDefaults({
+        debug: true,
+        success: "valid"
+    });
+    //To validate login from
+    $("#Vehicle").validate({
+        //By this submit handler only we can able to use submit and button
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+</script>

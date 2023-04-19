@@ -1,0 +1,12 @@
+{
+  "SMTPMailConfig": {
+    "SendMailFlag": "1",
+    "SMTPServer": "smtp.gmail.com",
+    "SMTPPort": "587",
+    "password": "Albin@984#",
+    "enableSSL": true,
+    "emailFromAddress": "b18202albinanto@dbcyelagiri.edu.in",
+    "subject": "Forget password OTP",
+    "body": "Hello, This is Email for change ur password  using this otp:"
+  }
+}

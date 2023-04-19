@@ -1,0 +1,24 @@
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\bin\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.deps.json
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\bin\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.dll
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\bin\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.pdb
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\bin\Release\netcoreapp2.2\VehicleServiceManagement.Framework.dll
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\bin\Release\netcoreapp2.2\VehicleServiceManagement.Framework.pdb
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.csprojAssemblyReference.cache
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.csproj.CoreCompileInputs.cache
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.AssemblyInfoInputs.cache
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.AssemblyInfo.cs
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.csproj.CopyComplete
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.dll
+D:\Techtalk\Web Applications\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.pdb
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\bin\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.deps.json
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\bin\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.dll
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\bin\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.pdb
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\bin\Release\netcoreapp2.2\VehicleServiceManagement.Framework.dll
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\bin\Release\netcoreapp2.2\VehicleServiceManagement.Framework.pdb
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.csprojAssemblyReference.cache
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.csproj.CoreCompileInputs.cache
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.AssemblyInfoInputs.cache
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.AssemblyInfo.cs
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.csproj.CopyComplete
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.dll
+E:\Albin\Bosco Soft\Web Application\VehicleServiceManagement\VehicleServiceManagement.DbEngine\obj\Release\netcoreapp2.2\VehicleServiceManagement.DbEngine.pdb
